@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fleet-iam-rbac
+  namespace: argocd
+  annotations:
+    description: "Reconciles GCP IAM roles, Workload Identity mappings, and Kubernetes RBAC policies."
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/fkc1e100/kube-agents-iam.git
+    targetRevision: HEAD
+    path: policies
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: false
+    syncOptions:
+      - CreateNamespace=true
