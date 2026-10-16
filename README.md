@@ -25,21 +25,22 @@ kube-agents-infra/
     │   ├── gke-standard-cluster/         # Standard cluster module with GPU/TPU accelerators
     │   └── vpc-network/                  # VPC and subnet provisioning module
     └── environments/
-        ├── gca-gke-test/                 # 25 clusters in gca-gke-test
-        │   ├── main.tf
-        │   ├── variables.tf
-        │   ├── networks.tf               # Custom VPCs (A2, A3, Cursor, TPU)
-        │   ├── clusters_management.tf    # Autopilot management & console clusters
-        │   ├── clusters_accelerators.tf  # A100, H100, H200, TPU v6e clusters
-        │   ├── clusters_sandboxes.tf     # Test, evaluation & sandbox clusters
-        │   ├── clusters_microservices.tf # Distributed multi-region services
-        │   └── outputs.tf
-        └── gca-gke-2025/                 # 2 clusters in gca-gke-2025
-            ├── main.tf
-            ├── variables.tf
-            ├── networks.tf               # gemma4-inference-vpc
-            ├── clusters.tf               # kcc-gitops-hub & openrl-gpu-hub (L4)
-            └── outputs.tf
+        ├── gca-gke-test/                 # 25 dedicated cluster directories + networks
+        │   ├── README.md                 # Per-cluster hardware index & operational runbook
+        │   ├── networks/                 # Custom VPCs (A2, A3, Cursor, TPU)
+        │   ├── ka-webconsole-pr2321/     # Autopilot management & console cluster
+        │   ├── kcc-management-cluster/   # Autopilot Argo CD GitOps management cluster
+        │   ├── gke-a2-highgpu/           # Standard 8x A100 40GB accelerator cluster
+        │   ├── gke-a2-ultra/             # Standard 8x A100 80GB + bench cluster
+        │   ├── gke-a3-mega/              # Standard 8x H100 Mega accelerator cluster
+        │   ├── gke-cursor/               # Standard 8x H200 141GB accelerator cluster
+        │   ├── gke-tpuv6-dws/            # Standard Cloud TPU v6e Trillium cluster
+        │   └── ... (25 clusters total)   # Standalone root per cluster
+        └── gca-gke-2025/                 # 2 dedicated cluster directories + networks
+            ├── README.md                 # Hardware index & operational runbook
+            ├── networks/                 # gemma4-inference-vpc
+            ├── kcc-gitops-hub/           # GitOps & KCC controller hub cluster
+            └── openrl-gpu-hub/           # Standard 3x NVIDIA L4 GPU accelerator cluster
 ```
 
 ---

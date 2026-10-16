@@ -22,20 +22,34 @@ data:
     export TF_IN_AUTOMATION=1
     export GOOGLE_APPLICATION_CREDENTIALS=""
 
-    # 1. Reconcile gca-gke-test environment
-    echo ">>> [gca-gke-test] Initializing and validating Terraform <<<"
-    cd "$WORKDIR/terraform/environments/gca-gke-test"
-    terraform init -input=false
-    terraform validate
-    echo ">>> [gca-gke-test] Generating execution plan <<<"
-    terraform plan -input=false -out=tfplan-test || true
+    reconcile_env() {
+      ENV_NAME="$1"
+      ENV_DIR="$WORKDIR/terraform/environments/$ENV_NAME"
+      echo "=== Processing Environment: $ENV_NAME ==="
+      if [ ! -d "$ENV_DIR" ]; then
+        echo "Directory $ENV_DIR not found, skipping."
+        return
+      fi
 
-    # 2. Reconcile gca-gke-2025 environment
-    echo ">>> [gca-gke-2025] Initializing and validating Terraform <<<"
-    cd "$WORKDIR/terraform/environments/gca-gke-2025"
-    terraform init -input=false
-    terraform validate
-    echo ">>> [gca-gke-2025] Generating execution plan <<<"
-    terraform plan -input=false -out=tfplan-2025 || true
+      for SUBDIR in "$ENV_DIR"/*/; do
+        if [ -f "$SUBDIR/main.tf" ]; then
+          TARGET="$(basename "$SUBDIR")"
+          echo ">>> [$ENV_NAME / $TARGET] Initializing and validating Terraform <<<"
+          (
+            cd "$SUBDIR"
+            terraform init -input=false
+            terraform validate
+            echo ">>> [$ENV_NAME / $TARGET] Generating execution plan <<<"
+            terraform plan -input=false -out=tfplan || true
+          )
+        fi
+      done
+    }
+
+    # 1. Reconcile gca-gke-test environment (per-cluster roots & networks)
+    reconcile_env "gca-gke-test"
+
+    # 2. Reconcile gca-gke-2025 environment (per-cluster roots & networks)
+    reconcile_env "gca-gke-2025"
 
     echo "=== Fleet Terraform GitOps Reconciliation Complete ==="

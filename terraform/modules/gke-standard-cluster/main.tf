@@ -56,13 +56,13 @@ variable "deletion_protection" {
 variable "node_pools" {
   description = "Map of node pools to configure for this cluster"
   type = map(object({
-    machine_type      = optional(string, "e2-standard-2")
-    disk_size_gb      = optional(number, 100)
-    disk_type         = optional(string, "pd-standard")
-    node_count        = optional(number, 1)
-    autoscaling       = optional(bool, false)
-    min_count         = optional(number, 1)
-    max_count         = optional(number, 5)
+    machine_type       = optional(string, "e2-standard-2")
+    disk_size_gb       = optional(number, 100)
+    disk_type          = optional(string, "pd-standard")
+    node_count         = optional(number, 1)
+    autoscaling        = optional(bool, false)
+    min_count          = optional(number, 1)
+    max_count          = optional(number, 5)
     accelerator_type   = optional(string, null)
     accelerator_count  = optional(number, 0)
     gpu_driver_version = optional(string, "DEFAULT")
