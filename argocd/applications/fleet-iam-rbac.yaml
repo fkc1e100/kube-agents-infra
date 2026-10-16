@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/fkc1e100/kube-agents-iam.git
     targetRevision: HEAD
-    path: policies
+    path: policies/fleet-wide
   destination:
     server: https://kubernetes.default.svc
     namespace: default

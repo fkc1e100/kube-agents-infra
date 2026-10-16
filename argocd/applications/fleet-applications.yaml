@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/fkc1e100/kube-agents-apps.git
     targetRevision: HEAD
-    path: apps
+    path: apps/gca-gke-test/kcc-management-cluster/base
   destination:
     server: https://kubernetes.default.svc
     namespace: default
