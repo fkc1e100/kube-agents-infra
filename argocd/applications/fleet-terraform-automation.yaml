@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fleet-terraform-automation
+  namespace: argocd
+  annotations:
+    description: "Automated GitOps pipeline for reconciling fleet Terraform definitions across gca-gke-test and gca-gke-2025."
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/fkc1e100/kube-agents-infra.git
+    targetRevision: HEAD
+    path: manifests/infra/terraform-runner
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: false
+    syncOptions:
+      - CreateNamespace=true
