@@ -1,5 +1,3 @@
-# Keep resource specs aligned with clusters/ka-webconsole-pr2321/provisioning/eval_autoops_open_pr.tf
-# and harden namespace defaults in manifests/infra/eval-autoops-open-pr-limitrange.yaml when adjusting limits.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
