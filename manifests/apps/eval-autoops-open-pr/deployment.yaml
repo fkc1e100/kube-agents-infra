@@ -1,6 +1,5 @@
-# Active Kubernetes workload manifest (argocd/applications/eval-autoops-open-pr.yaml).
-# Cluster provisioning infrastructure definition: clusters/ka-webconsole-pr2321/provisioning/eval_autoops_open_pr.tf
-# Optional namespace LimitRange hardening: manifests/infra/eval-autoops-open-pr-limitrange.yaml
+# Keep resource specs aligned with clusters/ka-webconsole-pr2321/provisioning/eval_autoops_open_pr.tf
+# and harden namespace defaults in manifests/infra/eval-autoops-open-pr-limitrange.yaml when adjusting limits.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
