@@ -37,10 +37,10 @@ resource "kubernetes_deployment_v1" "eval_open_pr_workload" {
           resources {
             requests = {
               cpu    = "10m"
-              memory = "64Mi"
+              memory = "128Mi"
             }
             limits = {
-              memory = "64Mi"
+              memory = "128Mi"
             }
           }
         }
