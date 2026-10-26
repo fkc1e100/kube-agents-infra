@@ -35,15 +35,15 @@ resource "kubernetes_deployment_v1" "eval_open_pr_workload" {
           image   = "busybox:1.36"
           command = ["sh", "-c", "dd if=/dev/zero of=/dev/null bs=96M count=1 && sleep 3600"]
           resources {
-            requests = {
-              cpu    = "10m"
-              memory = "64Mi"
-            }
             limits = {
-              memory = "64Mi"
+              cpu    = "100m"
+              memory = "128Mi"
+            }
+            requests = {
+              cpu    = "50m"
+              memory = "128Mi"
             }
           }
-        }
       }
     }
   }
