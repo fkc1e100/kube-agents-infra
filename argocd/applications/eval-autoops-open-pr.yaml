@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: eval-autoops-open-pr
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/fkc1e100/kube-agents-infra.git
+    targetRevision: HEAD
+    path: manifests/apps/eval-autoops-open-pr
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: eval-autoops-open-pr
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true

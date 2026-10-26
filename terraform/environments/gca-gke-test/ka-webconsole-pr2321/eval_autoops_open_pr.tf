@@ -1,8 +1,5 @@
-# Day-0 bootstrap and default sizing variables for eval-autoops-open-pr.
-# Active Kubernetes workload manifests live under manifests/apps/eval-autoops-open-pr/.
-
 variable "eval_open_pr_workload_memory_limit" {
-  description = "Bootstrap container memory limit for eval-open-pr-workload"
+  description = "Default container memory limit for eval-open-pr-workload namespace"
   type        = string
   default     = "64Mi"
 }
@@ -25,6 +22,9 @@ resource "kubernetes_limit_range_v1" "eval_autoops_open_pr_defaults" {
   spec {
     limit {
       type = "Container"
+      max = {
+        memory = "96Mi"
+      }
       default = {
         memory = var.eval_open_pr_workload_memory_limit
       }
