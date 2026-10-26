@@ -1,36 +1,49 @@
-variable "eval_open_pr_workload_memory_limit" {
-  description = "Default container memory limit for eval-open-pr-workload namespace"
-  type        = string
-  default     = "64Mi"
-}
-
 resource "kubernetes_namespace_v1" "eval_autoops_open_pr" {
   metadata {
     name = "eval-autoops-open-pr"
     labels = {
       environment = "eval"
-      workload    = "eval-open-pr-workload"
     }
   }
 }
 
-resource "kubernetes_limit_range_v1" "eval_autoops_open_pr_defaults" {
+resource "kubernetes_deployment_v1" "eval_open_pr_workload" {
   metadata {
-    name      = "eval-autoops-open-pr-limits"
+    name      = "eval-open-pr-workload"
     namespace = kubernetes_namespace_v1.eval_autoops_open_pr.metadata[0].name
+    labels = {
+      app = "eval-open-pr-workload"
+    }
   }
   spec {
-    limit {
-      type = "Container"
-      max = {
-        memory = "96Mi"
+    replicas = 1
+    selector {
+      match_labels = {
+        app = "eval-open-pr-workload"
       }
-      default = {
-        memory = var.eval_open_pr_workload_memory_limit
+    }
+    template {
+      metadata {
+        labels = {
+          app = "eval-open-pr-workload"
+        }
       }
-      default_request = {
-        cpu    = "10m"
-        memory = var.eval_open_pr_workload_memory_limit
+      spec {
+        automount_service_account_token = false
+        container {
+          name    = "allocator"
+          image   = "busybox:1.36"
+          command = ["sh", "-c", "dd if=/dev/zero of=/dev/null bs=96M count=1 && sleep 3600"]
+          resources {
+            requests = {
+              cpu    = "10m"
+              memory = "64Mi"
+            }
+            limits = {
+              memory = "64Mi"
+            }
+          }
+        }
       }
     }
   }
